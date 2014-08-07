@@ -1,0 +1,14 @@
+In this example, there are two networks, one fixed (long-range) and the other varying (short-range). Nodes have periodic or linear node states, and moves randomly on 2D periodic lattice.
+Three papers are written using this example.
+(1) Phys. Rev. E, 83, 056110 (2011). (Only one network with short-range links exists. The other network has zero link.)
+(2) arXiv:1109.0556 (http://arxiv.org/abs/1109.0556) (2011). (A network with short-range links, and a network with long-range links exist. A network with long-range links is not varying.)
+(3) arXiv:1109.0556 (http://arxiv.org/abs/1109.0556) (2012). (A network with short-range links, and a network with long-range links exist. A network with long-range links is not varying.)
+To see the detailed description of the model, check out these papers.
+
+
+How to use the code.
+1, If it hasn't been done, compile the library first at the directory $CONET, assuming $CONET is the root directory for the library. The library 'libconet.a' will be created at '$CONET/lib'
+
+2, To compile this example: run 'make' from this directory ($CONET/examples/ex1). Then, the executable file, 'Ex1' will be created at '$CONET/bin'
+
+3, To run: change the current directory to '$CONET/run', and run '$CONET/bin/Ex1 param_Ex1.in' where 'param_Ex1.in' is an input file that gives all the parameters for this example. Parameters are explained in the input file.

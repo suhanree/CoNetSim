@@ -1,0 +1,14 @@
+In this example, there are two networks, both (with long-range and short-range links) are varying. Nodes have periodic and linear node states, and moves randomly on 2D periodic lattice as in Ex1. The main difference is that there is dynamics for the networks with long-range links (additional parameter: rewiring_ratio).
+This code is used as an example for one paper.
+(1) arXiv:1109.0556 (http://arxiv.org/abs/1109.0556) (2012).
+To see the detailed description of the model, check out the paper.
+
+
+How to use the code.
+1, If it hasn't been done, compile the library first at the directory $CONET, assuming $CONET is the root directory for the library. The library 'libconet.a' will be created at '$CONET/lib'
+
+2, To compile this example: run 'make' from this directory ($CONET/examples/ex2). Then, the executable file, 'Ex2' will be created at '$CONET/bin'
+
+3, To run: change the current directory to '$CONET/run', and run '$CONET/bin/Ex2 param_Ex2.in' where 'param_Ex2.in' is an input file that gives all the parameters for this example. Parameters are explained in the input file.
+
+4, To make multiple runs (changing parameters), a script is given in '$CONET/examples/ex2/script/'. First, copy the script to '$CONET/run' and run the script.

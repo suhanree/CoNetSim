@@ -1,0 +1,161 @@
+#
+#	CONETSIM - Makefile.SIM
+#
+#
+#	Copyright (C) 2014	Suhan Ree
+#
+#	This program is free software: you can redistribute it and/or modify
+#	it under the terms of the GNU General Public License as published by
+#	the Free Software Foundation, either version 3 of the License, or
+#	(at your option) any later version.
+#	
+#	This program is distributed in the hope that it will be useful,
+#	but WITHOUT ANY WARRANTY; without even the implied warranty of
+#	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#	GNU General Public License for more details.
+#	
+#	You should have received a copy of the GNU General Public License
+#	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#	
+#	Author: suhanree@yahoo.com (Suhan Ree)
+
+# Sub-Makefile for the SIM module of conet. (This will make the libraries for other projects.)
+# This file will be executed by the main Makefile.
+#	(Or you can use make this module by executing 'make -f Makefile.SIM'
+#	 from the directory this makefile is in. The variables exported from
+#	 the main Makefile can be given in the command line.)
+# Some variables (COMPILER, MPI, DEBUG, OPTIMIZE) are exported from the main makefile.
+
+ifndef COMPILER
+   COMPILER=GCC
+endif
+
+# When MPI is NOT used, assigning the compiler (GCC=g++)
+# When MPI is used, assigning the MPI compilers (hcc, mpicc)
+ifeq ($(MPI),none)
+   ifeq ($(COMPILER),GCC)
+   	CXX = g++
+   else 
+      	CXX = $(COMPILER)
+   endif
+else
+   ifeq ($(MPI),LAM)
+   	CXX = /usr/bin/hcp
+   else
+   	ifeq ($(MPI),MPICH)
+	   CXX = /usr/local/mpich/bin/mpiCC
+	endif
+   endif
+endif
+
+# setting paths for files used as targets or dependencies.
+vpath %.o ../obj
+vpath %.a ../lib
+vpath %.h ../include
+
+# defining the name of the object files.
+objects := Random1.o Random2.o Random3.o Random4.o
+objects += Node.o Nodes.o Link.o
+objects += Graph.o GraphFB.o GraphFD.o GraphFDS.o
+objects += Input.o Output.o Utilities.o Point.o
+
+# defining the name of the header files.
+headers := Random.h Random1.h Random2.h Random3.h Random4.h
+headers += Node.h Nodes.h Link.h Links.h
+headers += Graph.h GraphFB.h GraphFD.h GraphFDS.h Graphs.h
+headers += Input.h Output.h Utilities.h Point.h Errors.h Types.h
+headers += Network.h
+
+# The name of the archives.
+name = libconet.a
+
+# For debugging, names of object files will have the '.debug.o' extension 
+# (not implemented at this point, execute 'make clean' first before using DEBUG=1)
+ifeq ($(DEBUG),1)
+#   objects := $(patsubst %.o, %.debug.o, $(objects))
+#   name := $(addsuffix .debug, $(name))
+   CXXFLAGS := $(CXXFLAGS) -g
+else
+   CXXFLAGS := -O$(OPTIMIZE) 	# When not debugging, turn the optimization on.
+endif
+
+# path for the header files.
+CXXFLAGS += -I../include
+
+#defining object filenames with correct paths.
+objs_with_path := $(addprefix ../obj/,$(objects))
+
+# Primary Targets:
+
+$(name) : $(objects)
+	@ echo $(name) " (linking...)"
+	@ if [ ! -d "../lib" ]; then mkdir ../lib; fi
+	@ ar r ../lib/$(name) $(objs_with_path)
+
+Random1.o : Random1.C Random1.h Random.h Errors.h Utilities.h
+	@ echo $(@F)
+	@ if [ ! -d "../obj" ]; then mkdir ../obj; fi
+	@ $(CXX) $(CXXFLAGS) -c $< -o ../obj/$@
+
+Random2.o : Random2.C Random2.h Random.h Errors.h Utilities.h
+	@ echo $(@F)
+	@ $(CXX) $(CXXFLAGS) -c $< -o ../obj/$@
+
+Random3.o : Random3.C Random3.h Random.h Errors.h Utilities.h
+	@ echo $(@F)
+	@ $(CXX) $(CXXFLAGS) -c $< -o ../obj/$@
+
+Random4.o : Random4.C Random4.h Random.h Errors.h Utilities.h
+	@ echo $(@F)
+	@ $(CXX) $(CXXFLAGS) -c $< -o ../obj/$@
+
+Node.o : Node.C Node.h Random4.h Errors.h TimeSeq.h Types.h
+	@ echo $(@F)
+	@ $(CXX) $(CXXFLAGS) -c $< -o ../obj/$@
+
+Nodes.o : Nodes.C Nodes.h Node.h Random4.h Errors.h TimeSeq.h Types.h
+	@ echo $(@F)
+	@ $(CXX) $(CXXFLAGS) -c $< -o ../obj/$@
+
+Link.o : Link.C Link.h Random4.h Errors.h TimeSeq.h Types.h
+	@ echo $(@F)
+	@ $(CXX) $(CXXFLAGS) -c $< -o ../obj/$@
+
+Graph.o : Graph.C Graph.h Types.h
+	@ echo $(@F)
+	@ $(CXX) $(CXXFLAGS) -c $< -o ../obj/$@
+
+GraphFB.o : GraphFB.C GraphFB.h Graph.h Types.h
+	@ echo $(@F)
+	@ $(CXX) $(CXXFLAGS) -c $< -o ../obj/$@
+
+GraphFD.o : GraphFD.C GraphFD.h Graph.h Types.h
+	@ echo $(@F)
+	@ $(CXX) $(CXXFLAGS) -c $< -o ../obj/$@
+
+GraphFDS.o : GraphFDS.C GraphFDS.h Graph.h Types.h
+	@ echo $(@F)
+	@ $(CXX) $(CXXFLAGS) -c $< -o ../obj/$@
+
+Input.o : Input.C Input.h Graph.h Types.h
+	@ echo $(@F)
+	@ $(CXX) $(CXXFLAGS) -c $< -o ../obj/$@
+
+Output.o : Output.C Output.h Graph.h Types.h
+	@ echo $(@F)
+	@ $(CXX) $(CXXFLAGS) -c $< -o ../obj/$@
+
+Utilities.o : Utilities.C Utilities.h Types.h Graph.h GraphFB.h GraphFD.h GraphFDS.h Graphs.h Errors.h Random4.h Link.h Links.h Point.h
+	@ echo $(@F)
+	@ $(CXX) $(CXXFLAGS) -c $< -o ../obj/$@
+
+Point.o : Point.C Point.h Errors.h
+	@ echo $(@F)
+	@ $(CXX) $(CXXFLAGS) -c $< -o ../obj/$@
+
+# phony targets:
+.PHONY : clean
+
+clean :
+	@ echo "Deleting" $(name) $(objects)
+	@ rm -rf ../lib/$(name) $(objs_with_path)

@@ -1,0 +1,6 @@
+This is a library for network dynamics (discrete-time, with link delays) called conet.
+The detailed description of the framework will be published as a research paper soon.
+
+To compile this library, run 'make' at the root directory of this library ($CONET).
+Then 'libconet.a' will be created at '$CONET/lib'.
+There are some example codes that use this library, at '$CONET/examples'.

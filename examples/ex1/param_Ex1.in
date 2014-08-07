@@ -1,0 +1,75 @@
+# Input function for input parameters.
+# If the first column of a line is '#', the rest of the line is comment.
+#
+# basic parameters for the problem
+nnodes				10	# number of nodes
+xsize				5	# x-size of torus
+ysize				5	# y-size of torus
+geometry			1	# geometry of the position space (1: regular (default), 2: with excluded points)
+in_excluded_file		points	# when geometry=2, this file has excluded points (format: X Y)
+coupling_constant		0.5	# coupling constant of all nodes (named as g). (0<=g<=1).
+op_threshold			0.5	# The threshold for the node opinion update (0<op_threshold<=0.5).
+					# If the difference of opinions is bigger than this value, the opinion is not changed.
+opinion_topology		2	# 1 when linear opinions, 2 when circular opinions (0<opinion<1) (Here we assume a node has an opinon state. It can be 'phi'.)
+op_init_method			1	# 1: random, 2: regular ((id+0.5)/nnodes) (How to initialize opinions of all nodes.)
+int_range			1	# SG interaction range (SG stands for a graph that represent local neighbors based on position; while AG represents long-range connections))
+neighbor_type_sg		1	# 1: von Neumann (+center), 3: Moore (+center) (How you define neighbors based on positions.)
+node_max_speed			1	# max distance an node can move at one time step
+neighbor_type_movement		1	# 1: von Neumann (+center), 2: von Neumann, 3: Moore (+center), 4: Moore (How you define neighboring positions for movement.)
+update_method			4	# update method for opinions (1,3: divided by size; 2,4: divided by 1+size) (size: number of all neighbors excluding myself)
+					# 			     (1,2: AG directional; 3,4: AG bidirectional)
+total_time			10	# total simulation time
+
+# parameters for random variables.
+rseed1				400	# seed for node dynamics (will be used to give random seeds to nodes).
+rseed2				100	# seed for AG initialization if needed.
+max_rn				100	# maximum number of random numbers each node can use.
+convergence_check_period	100	# period for the convergence check (if opinions don't change for this period, it's assumed to be converged). 
+					# If 0, don't check.
+convergence_method		0	# The method to check the convergence of the system.
+					# 0, do not check.
+					# 1, use the opinions of all nodes.
+					# 4~7 (special case to find the transition from period-i to period-(i-1), i=convergence_method-2) 
+					# 10 (special case to find the transition from period-n to period-0 eventually) 
+convergence_out_period		0	# Only used when convergence_method>3
+					# 0: do not output
+					# >0: output the convergence value every convergence_out_period (filename will be out_snapshot_out+'p')
+# parameters for the output
+if_snapshot_out			true	# snapshot for all nodes (format: Time ID X Y Opinion).
+out_snapshot_file		out_snapshot	# filename
+out_snapshot_interval		1	# if 0, writes only the first and final values.
+#
+if_ag_snapshot_out		true	# shapshot for AG (graph for long-range connections, fixed)
+out_ag_snapshot_file		out_ag	# filename
+out_ag_snapshot_method		2	# 1: Time Ori Des, 2: Time ID Ori1 Ori2..., 3: pajek .net 
+out_ag_snapshot_interval	0	# if 0, writes only the first and final values.
+#
+if_sg_snapshot_out		true	# snapshot for SG (graph for shorr-range connections, varying)
+out_sg_snapshot_file		out_sg	# filename
+out_sg_snapshot_method		2	# 1: Time Ori Des, 2: Time ID Ori1 Ori2..., 3: pajek .net 
+out_sg_snapshot_interval	1
+#
+if_node_out			true	# snapshot for one node (format: Time ID X Y Opinion).
+node_id				2	# id of the node
+out_node_file			out_node	# filename
+out_node_interval		1	# if 0, writes only the first and final values.
+#
+if_summary_out			true	# summary of results
+out_summary_file		out_summary	# filename
+#
+if_network_stat_out		true	# network stat (ncomponents, clustering coeff, mean distance) of AG+SG to out_summary_file
+out_network_stat_time		-1 	# if <0, writes only values at the final timestep. if >=0, writes values at the given time only.
+if_components_out		true	# if  true, write components info at out_network_stat_time
+out_components_file		out_components	# name of the file for components information
+#
+# parameters for the input
+if_agraph_in			false	# when false, a random graph for AG will be generated, when true, a file needs to be given (format: Origin Destination)
+in_agraph_file			agraph.in	# filename
+in_agraph_method		0	# 0: Random graph, 1: One random edge for each node (used when if_agraph_in=false)
+num_edges			10	# if num_edges<0, wiring_prob is used (used when if_agraph_in=false)
+wiring_prob			0.0	# wiring probability for a possible pair of nodes (used when if_agraph_in=false and num_edges<0)
+if_nodes_in			false		# when false, randomly given; when true, a file needs to be given (format: ID X Y Opinion)
+in_nodes_file			nodes.in	# filename
+#
+#
+#
