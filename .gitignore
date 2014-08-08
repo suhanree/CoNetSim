@@ -1,4 +1,20 @@
+# Compiled binaries
 bin/*
-run/*
 *.o
 *.a
+*.class
+*.dll
+*.exe
+*.so
+
+# Run directory (data files and other temporary files can exist here).
+run/*
+
+# Temporary files from OS or programs, if any.
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+*.bak
+*.swp
