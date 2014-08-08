@@ -23,29 +23,36 @@ In a network, separate entities are called **nodes**, while their relationships 
 
 * A system can be represented by many graph structures. 
 For example, in a social network, there can be many types of coexisting relations like friendship, family, and so on.
-Foe each different relationship, we can assign different graphs with different properties.
+For each different relationship, we can assign different graphs with different properties.
 As a result, there can be many types of nodes and links in one system.
 
 * Nodes and links can have their own states, and they can evolve with time interacting each other.
 We assume the time advances discretely one timestep at a time.
 
-* Link structures (basically the information of which nodes links are attached to) can also evolve with time,
+* Link structures (basically, which nodes links are attached to) can also evolve with time,
 and they can be influenced by node and link states.
 
 * When nodes influence other nodes, they should be connected by links, and influence of one node can be delayed based
 on the property of links that are connected to that node (called **link delay**). 
 Each link will have its own link delay value (it should be at least one timestep).
 
-At first glance, the system description seems simple, but if we go farther into the detail of dynamics, it can
+At first glance, the system description seems simple, but if we go further into the detail of dynamics, it can
 be quite complicated: for example, when we update states of nodes and links at each timestep, the update order can
-change the outcome of simulation.
+change the outcome of simulations.
 So we have to be careful when we define dynamic rules of the system.
 
 Lastly, I should mention that the code is not complete yet, and that lots of algorithmic improvements
 can be made.
-One of the reason I opened this code to public is for the reproducibility of my research. Anybody who is interested
-in my work can download this code and reproduce results.
-If this library can help others to solve their own problems, it would make me much happier.  
-To compile this library, run 'make' at the root directory of this library ($CONET).
+One of the reason I opened this code to public is to make my research reproducible. 
+Anybody who is interested in my work can download this code and reproduce results.
+In addition, if this library can help others to solve their own problems, it would make me much happier.  
+
+More detailed description of the library implementation and usage, and its possible models will be in separate documents.
+
+## How to run.
+
+To compile this C++ library, run 'make' at the root directory of this library 
+(we assume it is set as an environment variable called $CONET).
+I only used features supported by C++03, and the default compiler is gcc.
 Then 'libconet.a' will be created at '$CONET/lib'.
-There are some example codes that use this library, at '$CONET/examples'.
+At this moment, there are two example codes at '$CONET/examples'.
